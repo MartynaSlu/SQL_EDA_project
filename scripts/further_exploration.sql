@@ -151,16 +151,17 @@ WHERE order_date IS NOT NULL
 GROUP BY YEAR(order_date), MONTH(order_date)
 ORDER BY YEAR(order_date), MONTH(order_date);
 
--- DATETRUNC()
+--
 SELECT
-    DATETRUNC(month, order_date) AS order_date,
+    DATEADD(month, DATEDIFF(month, 0, order_date), 0) AS order_month,
     SUM(sales_amount) AS total_sales,
     COUNT(DISTINCT customer_key) AS total_customers,
     SUM(quantity) AS total_quantity
 FROM gold.fact_sales
 WHERE order_date IS NOT NULL
-GROUP BY DATETRUNC(month, order_date)
-ORDER BY DATETRUNC(month, order_date);
+GROUP BY DATEADD(month, DATEDIFF(month, 0, order_date), 0)
+ORDER BY DATEADD(month, DATEDIFF(month, 0, order_date), 0);
+
 
 -- FORMAT()
 SELECT
